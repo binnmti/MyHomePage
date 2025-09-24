@@ -118,12 +118,13 @@
 
     private DotNetObjectReference<TetrisGame>? objRef;
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
         gameTimer = new Timer(500);
         gameTimer.Elapsed += OnTimerElapsed;
         ClearBoard();
         objRef = DotNetObjectReference.Create(this);
+        return Task.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -143,7 +144,7 @@
         linesCleared = 0;
         ClearBoard();
         SpawnNewPiece();
-        gameTimer.Start();
+        gameTimer?.Start();
         StateHasChanged();
     }
 
@@ -151,14 +152,14 @@
     {
         isPaused = !isPaused;
         if (isPaused)
-            gameTimer.Stop();
+            gameTimer?.Stop();
         else
-            gameTimer.Start();
+            gameTimer?.Start();
     }
 
     private void ResetGame()
     {
-        gameTimer.Stop();
+        gameTimer?.Stop();
         isGameActive = false;
         isPaused = false;
         ClearBoard();
@@ -297,7 +298,10 @@
             level = (linesCleared / 10) + 1;
 
             // Increase speed
-            gameTimer.Interval = Math.Max(50, 500 - (level * 50));
+            if (gameTimer != null)
+            {
+                gameTimer.Interval = Math.Max(50, 500 - (level * 50));
+            }
         }
     }
 

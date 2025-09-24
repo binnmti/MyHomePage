@@ -16,6 +16,9 @@ concurrency:
 
 jobs:
   build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -27,13 +30,13 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore MyHomePage.csproj
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build MyHomePage.csproj --configuration Release --no-restore
 
     - name: Publish
-      run: dotnet publish -c Release --no-build -o dist
+      run: dotnet publish MyHomePage.csproj --configuration Release --no-build --output dist
 
     - name: Add .nojekyll file
       run: touch dist/wwwroot/.nojekyll

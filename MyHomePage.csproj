@@ -5,6 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <PublishUrl>docs\</PublishUrl>
+    <!-- GitHub Pages optimizations -->
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <BlazorEnableCompression>false</BlazorEnableCompression>
   </PropertyGroup>
 
   <ItemGroup>
