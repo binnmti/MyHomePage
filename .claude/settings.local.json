@@ -4,7 +4,8 @@
       "WebFetch(domain:binnmti.github.io)",
       "Bash(dotnet new:*)",
       "Bash(dotnet run)",
-      "Bash(taskkill:*)"
+      "Bash(taskkill:*)",
+      "Bash(dotnet build)"
     ],
     "deny": [],
     "ask": []
