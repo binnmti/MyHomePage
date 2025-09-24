@@ -46,6 +46,9 @@ jobs:
         # GitHub Pagesでは /repository-name/ のパスになるため、base要素を修正
         sed -i 's|<base href="/" />|<base href="/MyHomePage/" />|g' dist/wwwroot/index.html
 
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
