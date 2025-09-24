@@ -25,15 +25,15 @@ html, body {
     background: #1a1a1a;
     z-index: 1000;
     padding: 1rem 0;
-    border-bottom: 4px solid #00ff00;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    border-bottom: 4px solid #4488ff;
+    box-shadow: 0 0 10px rgba(68, 136, 255, 0.2);
 }
 
 .navbar-container {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0 2rem;
 }
@@ -41,9 +41,9 @@ html, body {
 .navbar-brand h1 {
     font-size: 1rem;
     font-family: 'Press Start 2P', monospace;
-    color: #00ff00;
+    color: #00cc00;
     margin: 0;
-    text-shadow: 2px 2px 0px #008800;
+    text-shadow: 2px 2px 0px #006600;
 }
 
 .navbar-menu {
@@ -62,10 +62,10 @@ html, body {
 }
 
 .navbar-item:hover {
-    color: #00ff00;
-    border: 2px solid #00ff00;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
-    text-shadow: 0 0 5px #00ff00;
+    color: #00cc00;
+    border: 2px solid #00cc00;
+    box-shadow: 0 0 8px rgba(0, 204, 0, 0.4);
+    text-shadow: 0 0 5px #00cc00;
 }
 
 /* メインコンテンツ */
@@ -106,8 +106,8 @@ html, body {
     right: 0;
     bottom: 0;
     background-image:
-        radial-gradient(circle at 25% 25%, #00ff00 1px, transparent 1px),
-        radial-gradient(circle at 75% 75%, #00ff00 1px, transparent 1px);
+        radial-gradient(circle at 25% 25%, #00cc00 1px, transparent 1px),
+        radial-gradient(circle at 75% 75%, #4488ff 1px, transparent 1px);
     background-size: 20px 20px;
     opacity: 0.1;
     animation: pixelMove 4s linear infinite;
@@ -122,64 +122,97 @@ html, body {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     font-family: 'Press Start 2P', monospace;
-    color: #00ff00;
+    color: #00cc00;
     text-shadow:
-        4px 4px 0px #008800,
+        4px 4px 0px #006600,
         8px 8px 0px #004400,
-        0 0 20px rgba(0, 255, 0, 0.5);
+        0 0 15px rgba(0, 204, 0, 0.4);
     position: relative;
     z-index: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* 日本語文字の読みやすさを改善 */
+.hero h1 span {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    font-size: 0.7em;
+    color: #aaaaaa;
+    text-shadow: 2px 2px 0px #555555;
+    letter-spacing: 0.1em;
+}
+
+.handle-name {
+    font-family: 'Press Start 2P', monospace !important;
+    text-align: center;
+    display: block;
+    width: 100%;
 }
 
 .hero .subtitle {
     font-size: 1rem;
     margin-bottom: 2rem;
-    font-family: 'Press Start 2P', monospace;
-    color: #ffff00;
-    text-shadow: 2px 2px 0px #cc8800;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    color: #ddaa44;
+    text-shadow: 2px 2px 0px #aa7722;
     position: relative;
     z-index: 1;
+    letter-spacing: 0.1em;
 }
 
 .hero .description {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     line-height: 2;
     margin-bottom: 3rem;
     font-family: 'Noto Sans JP', sans-serif;
-    color: #cccccc;
+    font-weight: 400;
+    color: #e0e0e0;
     position: relative;
     z-index: 1;
+    max-width: 700px;
+    text-align: center;
 }
 
 .cta-button {
     display: inline-block;
     padding: 1rem 2rem;
-    background: #ff0066;
+    background: #00cc00;
     color: white;
     text-decoration: none;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.8rem;
-    border: 4px solid #cc0044;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 4px solid #006600;
     box-shadow:
-        inset -4px -4px 0px #aa0033,
-        4px 4px 0px #330011;
+        inset -4px -4px 0px #004400,
+        4px 4px 0px #002200;
     transition: all 0.1s ease;
     position: relative;
     z-index: 1;
+    letter-spacing: 0.1em;
 }
 
 .cta-button:hover {
-    background: #ff3388;
+    background: #33dd33;
     box-shadow:
-        inset -2px -2px 0px #cc0044,
-        2px 2px 0px #330011,
-        0 0 20px rgba(255, 0, 102, 0.5);
+        inset -2px -2px 0px #006600,
+        2px 2px 0px #002200,
+        0 0 15px rgba(0, 204, 0, 0.4);
     transform: translate(2px, 2px);
     color: white;
 }
@@ -199,10 +232,12 @@ html, body {
     text-align: center;
     font-size: 1.5rem;
     margin-bottom: 3rem;
-    color: #00ff00;
+    color: #4488ff;
     position: relative;
-    font-family: 'Press Start 2P', monospace;
-    text-shadow: 3px 3px 0px #008800;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    text-shadow: 3px 3px 0px #2266cc;
+    letter-spacing: 0.1em;
 }
 
 .section-title::after {
@@ -213,13 +248,21 @@ html, body {
     background:
         repeating-linear-gradient(
             90deg,
-            #00ff00 0px,
-            #00ff00 8px,
-            #008800 8px,
-            #008800 16px
+            #4488ff 0px,
+            #4488ff 8px,
+            #2266cc 8px,
+            #2266cc 16px
         );
     margin: 20px auto;
-    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    box-shadow: 0 0 5px rgba(68, 136, 255, 0.3);
+}
+
+/* プロフィールセクション用の改善されたテキストスタイル */
+.section .hero-content p {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400;
+    line-height: 2;
+    text-align: center;
 }
 
 /* サービスセクション */
@@ -256,12 +299,12 @@ html, body {
 .service-card {
     background: #0f3460;
     padding: 2rem 1.5rem;
-    border: 4px solid #00ff00;
+    border: 4px solid #4488ff;
     text-align: center;
     box-shadow:
         inset -4px -4px 0px #0a2040,
-        8px 8px 0px #002200,
-        0 0 20px rgba(0, 255, 0, 0.2);
+        8px 8px 0px #002255,
+        0 0 10px rgba(68, 136, 255, 0.15);
     transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
@@ -274,7 +317,7 @@ html, body {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background: linear-gradient(45deg, #00ff00, #ffff00, #00ff00);
+    background: linear-gradient(45deg, #00cc00, #33dd33, #00cc00);
     z-index: -1;
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -284,8 +327,9 @@ html, body {
     transform: translate(-4px, -4px);
     box-shadow:
         inset -2px -2px 0px #0a2040,
-        12px 12px 0px #002200,
-        0 0 30px rgba(0, 255, 0, 0.4);
+        12px 12px 0px #002255,
+        0 0 20px rgba(0, 204, 0, 0.3);
+    border-color: #00cc00;
 }
 
 .service-card:hover::before {
@@ -295,7 +339,7 @@ html, body {
 .service-icon {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
-    filter: drop-shadow(2px 2px 0px #004400);
+    filter: drop-shadow(2px 2px 0px #002255);
     position: relative;
     z-index: 1;
 }
@@ -303,18 +347,24 @@ html, body {
 .service-card h3 {
     font-size: 0.9rem;
     margin-bottom: 1rem;
-    color: #00ff00;
-    font-family: 'Press Start 2P', monospace;
-    text-shadow: 2px 2px 0px #008800;
+    color: #4488ff;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    text-shadow: 2px 2px 0px #2266cc;
     position: relative;
     z-index: 1;
+}
+
+.service-card:hover h3 {
+    color: #00cc00;
+    text-shadow: 2px 2px 0px #006600;
 }
 
 .service-card p {
     color: #cccccc;
     line-height: 1.8;
     font-family: 'Noto Sans JP', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     position: relative;
     z-index: 1;
 }
@@ -330,42 +380,44 @@ html, body {
 .skill-category {
     background: #1a1a2e;
     padding: 2rem;
-    border: 3px solid #ffff00;
+    border: 3px solid #ddaa44;
     box-shadow:
         inset -3px -3px 0px #0a0a1e,
-        6px 6px 0px #333300,
-        0 0 15px rgba(255, 255, 0, 0.2);
+        6px 6px 0px #aa7722,
+        0 0 8px rgba(221, 170, 68, 0.15);
 }
 
 .skill-category h3 {
-    color: #ffff00;
+    color: #ddaa44;
     margin-bottom: 1.5rem;
     font-size: 0.9rem;
-    font-family: 'Press Start 2P', monospace;
-    text-shadow: 2px 2px 0px #cc8800;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    text-shadow: 2px 2px 0px #aa7722;
 }
 
 .skill-tag {
     display: inline-block;
-    background: #ff0066;
+    background: #4488ff;
     color: white;
     padding: 0.5rem 1rem;
     margin: 0.3rem;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-family: 'Noto Sans JP', sans-serif;
-    border: 2px solid #cc0044;
+    border: 2px solid #2266cc;
     box-shadow:
-        inset -2px -2px 0px #aa0033,
-        3px 3px 0px #330011;
+        inset -2px -2px 0px #114499,
+        3px 3px 0px #002255;
     transition: all 0.1s ease;
 }
 
 .skill-tag:hover {
-    background: #ff3388;
-    transform: translate(1px, 1px);
+    background: #00cc00;
+    border-color: #006600;
     box-shadow:
-        inset -1px -1px 0px #cc0044,
-        2px 2px 0px #330011;
+        inset -1px -1px 0px #004400,
+        2px 2px 0px #002200;
+    transform: translate(1px, 1px);
 }
 
 /* お問い合わせセクション */
@@ -390,8 +442,8 @@ html, body {
     right: 0;
     bottom: 0;
     background-image:
-        radial-gradient(circle at 20% 50%, #ff0066 2px, transparent 2px),
-        radial-gradient(circle at 80% 50%, #00ff00 2px, transparent 2px);
+        radial-gradient(circle at 20% 50%, #4488ff 2px, transparent 2px),
+        radial-gradient(circle at 80% 50%, #00cc00 2px, transparent 2px);
     background-size: 40px 40px;
     opacity: 0.1;
 }
@@ -400,6 +452,11 @@ html, body {
     text-align: center;
     position: relative;
     z-index: 1;
+}
+
+.contact-content p {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 400;
 }
 
 .contact-info {
@@ -416,38 +473,39 @@ html, body {
 }
 
 .contact-item h3 {
-    color: #00ff00;
+    color: #00cc00;
     margin-bottom: 1rem;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.8rem;
-    text-shadow: 2px 2px 0px #008800;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-shadow: 2px 2px 0px #006600;
 }
 
 .contact-item a {
-    color: #ffff00;
+    color: #ddaa44;
     text-decoration: none;
     font-family: 'Noto Sans JP', sans-serif;
     transition: all 0.2s ease;
-    text-shadow: 1px 1px 0px #cc8800;
+    text-shadow: 1px 1px 0px #aa7722;
 }
 
 .contact-item a:hover {
-    color: #00ff00;
+    color: #00cc00;
     text-shadow:
-        1px 1px 0px #008800,
-        0 0 10px rgba(0, 255, 0, 0.5);
+        1px 1px 0px #006600,
+        0 0 8px rgba(0, 204, 0, 0.4);
 }
 
 /* フッター */
 .footer {
     background: #000000;
-    color: #00ff00;
+    color: #00cc00;
     text-align: center;
     padding: 2rem 0;
     font-family: 'Press Start 2P', monospace;
     font-size: 0.7rem;
-    border-top: 4px solid #00ff00;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+    border-top: 4px solid #00cc00;
+    box-shadow: 0 0 15px rgba(0, 204, 0, 0.3);
 }
 
 /* レスポンシブ */
@@ -461,11 +519,13 @@ html, body {
     }
 
     .hero h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+        flex-direction: column;
+        gap: 0.3rem;
     }
 
     .hero .subtitle {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .section-title {
@@ -519,7 +579,7 @@ html, body {
 }
 
 .blazor-error-boundary {
-    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA2Ni4wMTgzIDI1OS4zMTMgNjcuMTI0NSAyNTkuMzEzIDY5LjMzNyAyNTkuMzEzIDY5LjYxMDIgMjU5LjMzMiA2OS44NjA4IDI1OS4zNzEgNzAuMDg4N0wyNjEuNzk1IDg0LjAxNjEgMjY1LjM4IDg0LjAxNjEgMjY3LjgyMSA2OS43NDc1QzI2Ny44NiA2OS43MzA5IDI2Ny44NzkgNjkuNTg3NyAyNjcuODc5IDY5LjMxNzkgMjY3Ljg3OSA2Ny4xMTgyIDI2Ni40NDggNjYuMDE4MyAyNjMuNTg2IDY2LjAxODNaTTI2My41NzYgODYuMDU0N0MyNjEuMDQ5IDg2LjA1NDcgMjU5Ljc4NiA4Ny4zMDA1IDI1OS43ODYgODkuNzkyMSAyNTkuNzg2IDkyLjI4MzcgMjYxLjA0OSA5My41Mjk1IDI2My41NzYgOTMuNTI5NSAyNjYuMTE2IDkzLjUyOTUgMjY3LjM4NyA5Mi4yODM3IDI2Ny4zODcgODkuNzkyMSAyNjcuMzg3IDg3LjMwMDUgMjY2LjExNiA4Ni4wNTQ3IDI2My41NzYgODYuMDU0N1oiIGZpbGw9IiNGRkU1MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvZz48L3N2Zz4=) no-repeat 1rem/1.8rem, #b32121;
+    background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNDkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIG92ZXJmbG93PSJoaWRkZW4iPjxkZWZzPjxjbGlwUGF0aCBpZD0iY2xpcDAiPjxyZWN0IHg9IjIzNSIgeT0iNTEiIHdpZHRoPSI1NiIgaGVpZ2h0PSI0OSIvPjwvY2xpcFBhdGg+PC9kZWZzPjxnIGNsaXAtcGF0aD0idXJsKCNjbGlwMCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMzUgLTUxKSI+PHBhdGggZD0iTTI2My41MDYgNTFDMjY0LjcxNyA1MSAyNjUuODEzIDUxLjQ4MzcgMjY2LjYwNiA1Mi4yNjU4TDI2Ny4wNTIgNTIuNzk4NyAyNjcuNTM5IDUzLjYyODMgMjkwLjE4NSA5Mi4xODMxIDI5MC41NDUgOTIuNzk1IDI5MC42NTYgOTIuOTk2QzI5MC44NzcgOTMuNTEzIDI5MSA5NC4wODE1IDI5MSA5NC42NzgyIDI5MSA5Ny4wNjUxIDI4OS4wMzggOTkgMjg2LjYxNyA5OUwyNDAuMzgzIDk5QzIzNy45NjMgOTkgMjM2IDk3LjA2NTEgMjM2IDk0LjY3ODIgMjM2IDk0LjM3OTkgMjM2LjAzMSA5NC4wODg2IDIzNi4wODkgOTMuODA3MkwyMzYuMzM4IDkzLjAxNjIgMjM2Ljg1OCA5Mi4xMzE0IDI1OS40NzMgNTMuNjI5NCAyNTkuOTYxIDUyLjc5ODUgMjYwLjQwNyA1Mi4yNjU4QzI2MS4yIDUxLjQ4MzcgMjYyLjI5NiA1MSAyNjMuNTA2IDUxWk0yNjMuNTg2IDY2LjAxODNDMjYwLjczNyA6LjAxODMgMjU5LjMxMyA2Ny4xMjQ1IDI1OS4zMTMgNjkuMzM3IDI1OS4zMTMgNjkuNjEwMiAyNTkuMzMyIDY5Ljg2MDggMjU5LjM3MSA3MC4wODg3TDI2MS43OTUgODQuMDE2MSAyNjUuMzggODQuMDE2MSAyNjcuODIxIDY5Ljc0NzVDMjY3Ljg2IDY5LjczMDkgMjY3Ljg3OSA2OS41ODc3IDI2Ny44NzkgNjkuMzE3OSAyNjcuODc5IDY3LjExODIgMjY2LjQ0OCA2Ni4wMTgzIDI2My41ODYgNjYuMDE4M1pNMjYzLjU3NiA4Ni4wNTQ3QzI2MS4wNDkgODYuMDU0NyAyNTkuNzg2IDg3LjMwMDUgMjU5Ljc4NiA4OS43OTIxIDI1OS43ODYgOTIuMjgzNyAyNjEuMDQ5IDkzLjUyOTUgMjYzLjU3NiA5My41Mjk1IDI2Ni4xMTYgOTMuNTI5NSAyNjcuMzg3IDkyLjI4MzcgMjY3LjM4NyA4OS43OTIxIDI2Ny4zODcgODcuMzAwNSAyNjYuMTE2IDg2LjA1NDcgMjYzLjU3NiA4Ni4wNTQ3WiIgZmlsbD0iI0ZGRTUwMCIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9nPjwvc3ZnPg==) no-repeat 1rem/1.8rem, #b32121;
     padding: 1rem 1rem 1rem 3.7rem;
     color: white;
 }

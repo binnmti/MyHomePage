@@ -308,7 +308,7 @@
             1 => "#00ffff", // I - Cyan
             2 => "#ffff00", // O - Yellow
             3 => "#ff00ff", // T - Magenta
-            4 => "#00ff00", // S - Green
+            4 => "#00cc00", // S - Green
             5 => "#ff0000", // Z - Red
             6 => "#0000ff", // J - Blue
             7 => "#ffa500", // L - Orange
@@ -409,13 +409,13 @@
 <style>
 .tetris-container {
     background: #1a1a2e;
-    border: 4px solid #00ff00;
+    border: 4px solid #00cc00;
     padding: 1rem;
     font-family: 'Press Start 2P', monospace;
     box-shadow:
         inset -4px -4px 0px #0a0a1e,
         8px 8px 0px #002200,
-        0 0 20px rgba(0, 255, 0, 0.3);
+        0 0 15px rgba(0, 204, 0, 0.3);
     width: 300px;
     position: fixed;
     right: 20px;
@@ -429,27 +429,29 @@
 }
 
 .tetris-header h3 {
-    color: #00ff00;
+    color: #00cc00;
     font-size: 0.8rem;
     margin: 0 0 0.5rem 0;
-    text-shadow: 2px 2px 0px #008800;
+    text-shadow: 2px 2px 0px #006600;
 }
 
 .tetris-score, .tetris-level {
-    color: #ffff00;
+    color: #ddaa44;
     font-size: 0.5rem;
     margin: 0.2rem 0;
-    text-shadow: 1px 1px 0px #cc8800;
+    text-shadow: 1px 1px 0px #aa7722;
 }
 
 .tetris-board {
     background: #000000;
     border: 2px solid #333333;
     margin-bottom: 1rem;
+    margin: 0 auto 1rem auto;
 }
 
 .tetris-row {
     display: flex;
+    justify-content: center;
 }
 
 .tetris-cell {
@@ -473,31 +475,31 @@
 }
 
 .tetris-btn {
-    background: #ff0066;
+    background: #4488ff;
     color: white;
-    border: 3px solid #cc0044;
+    border: 3px solid #2266cc;
     font-family: 'Press Start 2P', monospace;
     font-size: 0.5rem;
     padding: 0.5rem 0.8rem;
     margin: 0.2rem;
     cursor: pointer;
     box-shadow:
-        inset -2px -2px 0px #aa0033,
-        3px 3px 0px #330011;
+        inset -2px -2px 0px #114499,
+        3px 3px 0px #002255;
     transition: all 0.1s ease;
 }
 
 .tetris-btn:hover {
-    background: #ff3388;
+    background: #5599ff;
     transform: translate(1px, 1px);
     box-shadow:
-        inset -1px -1px 0px #cc0044,
-        2px 2px 0px #330011;
+        inset -1px -1px 0px #2266cc,
+        2px 2px 0px #002255;
 }
 
 .tetris-btn:active {
     transform: translate(2px, 2px);
-    box-shadow: inset -1px -1px 0px #cc0044;
+    box-shadow: inset -1px -1px 0px #2266cc;
 }
 
 .tetris-instructions {
