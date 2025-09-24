@@ -1,0 +1,524 @@
+@using System.Timers
+@using Microsoft.JSInterop
+@implements IDisposable
+@inject IJSRuntime JSRuntime
+
+<div class="tetris-container">
+    <div class="tetris-header">
+        <h3>TETRIS</h3>
+        <div class="tetris-score">SCORE: @score</div>
+        <div class="tetris-level">LEVEL: @level</div>
+    </div>
+
+    <div class="tetris-game">
+        <div class="tetris-board">
+            @for (int row = 0; row < BOARD_HEIGHT; row++)
+            {
+                <div class="tetris-row">
+                    @for (int col = 0; col < BOARD_WIDTH; col++)
+                    {
+                        <div class="tetris-cell @(GetCellClass(row, col))" style="@(GetCellStyle(row, col))">
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="tetris-controls">
+            <div class="tetris-buttons">
+                @if (!isGameActive)
+                {
+                    <button class="tetris-btn" @onclick="StartGame">START</button>
+                }
+                else
+                {
+                    <button class="tetris-btn" @onclick="PauseGame">@(isPaused ? "RESUME" : "PAUSE")</button>
+                }
+                <button class="tetris-btn" @onclick="ResetGame">RESET</button>
+            </div>
+
+            <div class="tetris-instructions">
+                <div>← → : MOVE</div>
+                <div>↓ : DROP</div>
+                <div>SPACE : ROTATE</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private const int BOARD_WIDTH = 10;
+    private const int BOARD_HEIGHT = 20;
+    private int[,] board = new int[BOARD_HEIGHT, BOARD_WIDTH];
+    private Timer? gameTimer;
+    private bool isGameActive = false;
+    private bool isPaused = false;
+    private int score = 0;
+    private int level = 1;
+    private int linesCleared = 0;
+
+    // Current piece
+    private int currentPiece = 0;
+    private int currentX = 4;
+    private int currentY = 0;
+    private int currentRotation = 0;
+
+    // Tetris pieces (I, O, T, S, Z, J, L)
+    private int[,,,] pieces = new int[7, 4, 4, 4] {
+        // I piece
+        {
+            {{0,0,0,0},{1,1,1,1},{0,0,0,0},{0,0,0,0}},
+            {{0,1,0,0},{0,1,0,0},{0,1,0,0},{0,1,0,0}},
+            {{0,0,0,0},{1,1,1,1},{0,0,0,0},{0,0,0,0}},
+            {{0,1,0,0},{0,1,0,0},{0,1,0,0},{0,1,0,0}}
+        },
+        // O piece
+        {
+            {{1,1,0,0},{1,1,0,0},{0,0,0,0},{0,0,0,0}},
+            {{1,1,0,0},{1,1,0,0},{0,0,0,0},{0,0,0,0}},
+            {{1,1,0,0},{1,1,0,0},{0,0,0,0},{0,0,0,0}},
+            {{1,1,0,0},{1,1,0,0},{0,0,0,0},{0,0,0,0}}
+        },
+        // T piece
+        {
+            {{0,1,0,0},{1,1,1,0},{0,0,0,0},{0,0,0,0}},
+            {{0,1,0,0},{0,1,1,0},{0,1,0,0},{0,0,0,0}},
+            {{0,0,0,0},{1,1,1,0},{0,1,0,0},{0,0,0,0}},
+            {{0,1,0,0},{1,1,0,0},{0,1,0,0},{0,0,0,0}}
+        },
+        // S piece
+        {
+            {{0,1,1,0},{1,1,0,0},{0,0,0,0},{0,0,0,0}},
+            {{0,1,0,0},{0,1,1,0},{0,0,1,0},{0,0,0,0}},
+            {{0,1,1,0},{1,1,0,0},{0,0,0,0},{0,0,0,0}},
+            {{0,1,0,0},{0,1,1,0},{0,0,1,0},{0,0,0,0}}
+        },
+        // Z piece
+        {
+            {{1,1,0,0},{0,1,1,0},{0,0,0,0},{0,0,0,0}},
+            {{0,0,1,0},{0,1,1,0},{0,1,0,0},{0,0,0,0}},
+            {{1,1,0,0},{0,1,1,0},{0,0,0,0},{0,0,0,0}},
+            {{0,0,1,0},{0,1,1,0},{0,1,0,0},{0,0,0,0}}
+        },
+        // J piece
+        {
+            {{1,0,0,0},{1,1,1,0},{0,0,0,0},{0,0,0,0}},
+            {{0,1,1,0},{0,1,0,0},{0,1,0,0},{0,0,0,0}},
+            {{0,0,0,0},{1,1,1,0},{0,0,1,0},{0,0,0,0}},
+            {{0,1,0,0},{0,1,0,0},{1,1,0,0},{0,0,0,0}}
+        },
+        // L piece
+        {
+            {{0,0,1,0},{1,1,1,0},{0,0,0,0},{0,0,0,0}},
+            {{0,1,0,0},{0,1,0,0},{0,1,1,0},{0,0,0,0}},
+            {{0,0,0,0},{1,1,1,0},{1,0,0,0},{0,0,0,0}},
+            {{1,1,0,0},{0,1,0,0},{0,1,0,0},{0,0,0,0}}
+        }
+    };
+
+    private DotNetObjectReference<TetrisGame>? objRef;
+
+    protected override async Task OnInitializedAsync()
+    {
+        gameTimer = new Timer(500);
+        gameTimer.Elapsed += OnTimerElapsed;
+        ClearBoard();
+        objRef = DotNetObjectReference.Create(this);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && objRef != null)
+        {
+            await JSRuntime.InvokeVoidAsync("tetrisKeyHandler.addKeyListener", objRef);
+        }
+    }
+
+    private void StartGame()
+    {
+        isGameActive = true;
+        isPaused = false;
+        score = 0;
+        level = 1;
+        linesCleared = 0;
+        ClearBoard();
+        SpawnNewPiece();
+        gameTimer.Start();
+        StateHasChanged();
+    }
+
+    private void PauseGame()
+    {
+        isPaused = !isPaused;
+        if (isPaused)
+            gameTimer.Stop();
+        else
+            gameTimer.Start();
+    }
+
+    private void ResetGame()
+    {
+        gameTimer.Stop();
+        isGameActive = false;
+        isPaused = false;
+        ClearBoard();
+        StateHasChanged();
+    }
+
+    private void ClearBoard()
+    {
+        for (int row = 0; row < BOARD_HEIGHT; row++)
+        {
+            for (int col = 0; col < BOARD_WIDTH; col++)
+            {
+                board[row, col] = 0;
+            }
+        }
+    }
+
+    private void SpawnNewPiece()
+    {
+        Random rand = new Random();
+        currentPiece = rand.Next(7);
+        currentX = 4;
+        currentY = 0;
+        currentRotation = 0;
+
+        if (!IsValidPosition(currentX, currentY, currentRotation))
+        {
+            // Game Over
+            ResetGame();
+        }
+    }
+
+    private async void OnTimerElapsed(object? sender, ElapsedEventArgs e)
+    {
+        if (!isPaused && isGameActive)
+        {
+            if (IsValidPosition(currentX, currentY + 1, currentRotation))
+            {
+                currentY++;
+            }
+            else
+            {
+                PlacePiece();
+                ClearLines();
+                SpawnNewPiece();
+            }
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private bool IsValidPosition(int x, int y, int rotation)
+    {
+        for (int row = 0; row < 4; row++)
+        {
+            for (int col = 0; col < 4; col++)
+            {
+                if (pieces[currentPiece, rotation, row, col] != 0)
+                {
+                    int boardX = x + col;
+                    int boardY = y + row;
+
+                    if (boardX < 0 || boardX >= BOARD_WIDTH ||
+                        boardY >= BOARD_HEIGHT ||
+                        (boardY >= 0 && board[boardY, boardX] != 0))
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private void PlacePiece()
+    {
+        for (int row = 0; row < 4; row++)
+        {
+            for (int col = 0; col < 4; col++)
+            {
+                if (pieces[currentPiece, currentRotation, row, col] != 0)
+                {
+                    int boardX = currentX + col;
+                    int boardY = currentY + row;
+
+                    if (boardY >= 0 && boardY < BOARD_HEIGHT && boardX >= 0 && boardX < BOARD_WIDTH)
+                    {
+                        board[boardY, boardX] = currentPiece + 1;
+                    }
+                }
+            }
+        }
+    }
+
+    private void ClearLines()
+    {
+        int clearedCount = 0;
+        for (int row = BOARD_HEIGHT - 1; row >= 0; row--)
+        {
+            bool isLineFull = true;
+            for (int col = 0; col < BOARD_WIDTH; col++)
+            {
+                if (board[row, col] == 0)
+                {
+                    isLineFull = false;
+                    break;
+                }
+            }
+
+            if (isLineFull)
+            {
+                // Clear the line
+                for (int moveRow = row; moveRow > 0; moveRow--)
+                {
+                    for (int col = 0; col < BOARD_WIDTH; col++)
+                    {
+                        board[moveRow, col] = board[moveRow - 1, col];
+                    }
+                }
+
+                // Clear top row
+                for (int col = 0; col < BOARD_WIDTH; col++)
+                {
+                    board[0, col] = 0;
+                }
+
+                clearedCount++;
+                row++; // Check this row again
+            }
+        }
+
+        if (clearedCount > 0)
+        {
+            linesCleared += clearedCount;
+            score += clearedCount * 100 * level;
+            level = (linesCleared / 10) + 1;
+
+            // Increase speed
+            gameTimer.Interval = Math.Max(50, 500 - (level * 50));
+        }
+    }
+
+    private string GetBlockColor(int pieceType)
+    {
+        return pieceType switch
+        {
+            1 => "#00ffff", // I - Cyan
+            2 => "#ffff00", // O - Yellow
+            3 => "#ff00ff", // T - Magenta
+            4 => "#00ff00", // S - Green
+            5 => "#ff0000", // Z - Red
+            6 => "#0000ff", // J - Blue
+            7 => "#ffa500", // L - Orange
+            _ => "#ffffff"
+        };
+    }
+
+    private string GetCellClass(int row, int col)
+    {
+        if (board[row, col] != 0 || IsCurrentPieceCell(row, col))
+            return "filled";
+        return "";
+    }
+
+    private string GetCellStyle(int row, int col)
+    {
+        if (board[row, col] != 0)
+            return $"background-color: {GetBlockColor(board[row, col])}";
+
+        if (IsCurrentPieceCell(row, col))
+            return $"background-color: {GetBlockColor(currentPiece + 1)}";
+
+        return "";
+    }
+
+    private bool IsCurrentPieceCell(int row, int col)
+    {
+        if (!isGameActive || isPaused) return false;
+
+        for (int pieceRow = 0; pieceRow < 4; pieceRow++)
+        {
+            for (int pieceCol = 0; pieceCol < 4; pieceCol++)
+            {
+                if (pieces[currentPiece, currentRotation, pieceRow, pieceCol] != 0)
+                {
+                    int boardX = currentX + pieceCol;
+                    int boardY = currentY + pieceRow;
+
+                    if (boardX == col && boardY == row)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    [JSInvokable]
+    public void MoveLeft()
+    {
+        if (isGameActive && !isPaused && IsValidPosition(currentX - 1, currentY, currentRotation))
+        {
+            currentX--;
+            StateHasChanged();
+        }
+    }
+
+    [JSInvokable]
+    public void MoveRight()
+    {
+        if (isGameActive && !isPaused && IsValidPosition(currentX + 1, currentY, currentRotation))
+        {
+            currentX++;
+            StateHasChanged();
+        }
+    }
+
+    [JSInvokable]
+    public void MoveDown()
+    {
+        if (isGameActive && !isPaused && IsValidPosition(currentX, currentY + 1, currentRotation))
+        {
+            currentY++;
+            StateHasChanged();
+        }
+    }
+
+    [JSInvokable]
+    public void Rotate()
+    {
+        if (isGameActive && !isPaused)
+        {
+            int newRotation = (currentRotation + 1) % 4;
+            if (IsValidPosition(currentX, currentY, newRotation))
+            {
+                currentRotation = newRotation;
+                StateHasChanged();
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        gameTimer?.Dispose();
+        objRef?.Dispose();
+    }
+}
+
+<style>
+.tetris-container {
+    background: #1a1a2e;
+    border: 4px solid #00ff00;
+    padding: 1rem;
+    font-family: 'Press Start 2P', monospace;
+    box-shadow:
+        inset -4px -4px 0px #0a0a1e,
+        8px 8px 0px #002200,
+        0 0 20px rgba(0, 255, 0, 0.3);
+    width: 300px;
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    z-index: 100;
+}
+
+.tetris-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.tetris-header h3 {
+    color: #00ff00;
+    font-size: 0.8rem;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 2px 2px 0px #008800;
+}
+
+.tetris-score, .tetris-level {
+    color: #ffff00;
+    font-size: 0.5rem;
+    margin: 0.2rem 0;
+    text-shadow: 1px 1px 0px #cc8800;
+}
+
+.tetris-board {
+    background: #000000;
+    border: 2px solid #333333;
+    margin-bottom: 1rem;
+}
+
+.tetris-row {
+    display: flex;
+}
+
+.tetris-cell {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #333333;
+    background: #000000;
+}
+
+.tetris-cell.filled {
+    border: 1px solid #ffffff;
+    box-shadow: inset -1px -1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.tetris-controls {
+    text-align: center;
+}
+
+.tetris-buttons {
+    margin-bottom: 1rem;
+}
+
+.tetris-btn {
+    background: #ff0066;
+    color: white;
+    border: 3px solid #cc0044;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    margin: 0.2rem;
+    cursor: pointer;
+    box-shadow:
+        inset -2px -2px 0px #aa0033,
+        3px 3px 0px #330011;
+    transition: all 0.1s ease;
+}
+
+.tetris-btn:hover {
+    background: #ff3388;
+    transform: translate(1px, 1px);
+    box-shadow:
+        inset -1px -1px 0px #cc0044,
+        2px 2px 0px #330011;
+}
+
+.tetris-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: inset -1px -1px 0px #cc0044;
+}
+
+.tetris-instructions {
+    color: #cccccc;
+    font-size: 0.4rem;
+    line-height: 1.5;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.tetris-instructions div {
+    margin: 0.2rem 0;
+}
+
+@@media (max-width: 768px) {
+    .tetris-container {
+        position: relative;
+        right: auto;
+        top: auto;
+        width: 100%;
+        max-width: 300px;
+        margin: 2rem auto;
+    }
+}
+</style>

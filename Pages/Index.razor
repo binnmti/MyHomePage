@@ -1,0 +1,152 @@
+﻿@page "/"
+@using MyHomePage.Components
+
+<PageTitle>binmti - フリーランスプログラマ</PageTitle>
+
+<TetrisGame />
+
+<!-- ヒーローセクション -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1 class="fade-in-up">binmti</h1>
+        <p class="subtitle fade-in-up">フリーランスプログラマ</p>
+        <p class="description fade-in-up">
+            C#を中心に、ゲーム・Windowsアプリ・Webなど幅広く開発してきました。<br/>
+            自動化、CI/CD、SREにも携わり、開発から運用まで得意です。<br/>
+            講師や技術書執筆、技術顧問などもしています。<br/>
+            モノづくりが大好きで、誰かの作りたいものをサポートできます！
+        </p>
+        <a href="#contact" class="cta-button fade-in-up">お問い合わせ</a>
+    </div>
+</section>
+
+<!-- プロフィールセクション -->
+<section id="about" class="section">
+    <div class="section-container">
+        <h2 class="section-title">プロフィール</h2>
+        <div class="hero-content">
+            <p style="font-size: 1.1rem; line-height: 1.8; color: #666; text-align: center; max-width: 800px; margin: 0 auto;">
+                C#読書会主催、Microsoft MVP。C#への深い愛情を持ち、技術コミュニティへの貢献を続けています。<br/>
+                技術的にはBlazorを使った現代的なWeb開発に情熱を注いでおり、最新の技術トレンドを追いながら、
+                実用的なソリューションの提供を心がけています。<br/>
+                個人事業主として、お客様の「作りたい」を技術で実現するお手伝いをしています。
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- サービスセクション -->
+<section id="services" class="section services">
+    <div class="section-container">
+        <h2 class="section-title">サービス</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🎮</div>
+                <h3>ゲーム開発</h3>
+                <p>Unityを使ったゲーム開発から、カスタムエンジンの開発まで幅広く対応します。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💻</div>
+                <h3>Windowsアプリ開発</h3>
+                <p>WPF、WinUI、.NET MAUIを使った業務アプリケーションの開発を行います。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🌐</div>
+                <h3>Web開発</h3>
+                <p>ASP.NET Core、Blazorを使った現代的なWebアプリケーションを構築します。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚙️</div>
+                <h3>自動化・CI/CD</h3>
+                <p>Azure DevOps、GitHub Actionsを使った効率的な開発環境を構築します。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📚</div>
+                <h3>技術指導・講師</h3>
+                <p>プログラミング講師や技術書執筆、技術顧問としてサポートします。</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>SRE・運用</h3>
+                <p>システムの信頼性向上、監視、運用の自動化をサポートします。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- スキルセクション -->
+<section id="skills" class="section">
+    <div class="section-container">
+        <h2 class="section-title">スキル</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>プログラミング言語</h3>
+                <div>
+                    <span class="skill-tag">C#</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">SQL</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>フレームワーク・技術</h3>
+                <div>
+                    <span class="skill-tag">ASP.NET Core</span>
+                    <span class="skill-tag">Blazor</span>
+                    <span class="skill-tag">WPF</span>
+                    <span class="skill-tag">Unity</span>
+                    <span class="skill-tag">.NET MAUI</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>クラウド・インフラ</h3>
+                <div>
+                    <span class="skill-tag">Azure</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Kubernetes</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h3>開発ツール</h3>
+                <div>
+                    <span class="skill-tag">Visual Studio</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">Azure DevOps</span>
+                    <span class="skill-tag">GitHub Actions</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- お問い合わせセクション -->
+<section id="contact" class="section contact">
+    <div class="section-container">
+        <div class="contact-content">
+            <h2 class="section-title" style="color: white;">お問い合わせ</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 3rem;">
+                プロジェクトのご相談やお見積もりなど、お気軽にお問い合わせください。
+            </p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <a href="mailto:contact@example.com">contact@example.com</a>
+                </div>
+                <div class="contact-item">
+                    <h3>X (Twitter)</h3>
+                    <a href="https://x.com/binnmti" target="_blank">@@binnmti</a>
+                </div>
+                <div class="contact-item">
+                    <h3>GitHub</h3>
+                    <a href="https://github.com/binnmti" target="_blank">binnmti</a>
+                </div>
+                <div class="contact-item">
+                    <h3>履歴書</h3>
+                    <a href="https://binnmti.github.io/resume/" target="_blank">詳しい経歴はこちら</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
