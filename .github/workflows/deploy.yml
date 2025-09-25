@@ -30,13 +30,13 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore MyHomePage.csproj
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build MyHomePage.csproj --no-restore
 
     - name: Publish
-      run: dotnet publish -c Release --no-build -o dist
+      run: dotnet publish MyHomePage.csproj -c Release -o dist
 
     - name: Add .nojekyll file
       run: touch dist/wwwroot/.nojekyll
