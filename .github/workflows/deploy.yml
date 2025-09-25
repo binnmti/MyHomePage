@@ -1,46 +1,28 @@
 name: Deploy to GitHub Pages
-# name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
-# on:
-#   push:
-#     branches: [ main ]
-#   workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
-# permissions:
-#   contents: read
-#   pages: write
-#   id-token: write
 
 concurrency:
   group: "pages"
   cancel-in-progress: false
-# concurrency:
-#   group: "pages"
-#   cancel-in-progress: false
 
 jobs:
   build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-# jobs:
-#   build-and-deploy:
-#     environment:
-#       name: github-pages
-#       url: ${{ steps.deployment.outputs.page_url }}
-#     runs-on: ubuntu-latest
-#     steps:
-#     - name: Checkout
-#       uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -49,57 +31,26 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-#     - name: Setup .NET
-#       uses: actions/setup-dotnet@v4
-#       with:
-#         dotnet-version: 8.0.x
 
     - name: Build
       run: dotnet build --no-restore
-#     - name: Restore dependencies
-#       run: dotnet restore MyHomePage.csproj
 
     - name: Publish
       run: dotnet publish -c Release --no-build -o dist
-#     - name: Build
-#       run: dotnet build MyHomePage.csproj --configuration Release --no-restore
 
     - name: Add .nojekyll file
       run: touch dist/wwwroot/.nojekyll
-#     - name: Publish
-#       run: dotnet publish MyHomePage.csproj --configuration Release --no-build --output dist
 
     - name: Fix base path for GitHub Pages
       run: |
         # GitHub Pagesでは /repository-name/ のパスになるため、base要素を修正
         sed -i 's|<base href="/" />|<base href="/MyHomePage/" />|g' dist/wwwroot/index.html
-#     - name: Add .nojekyll file
-#       run: touch dist/wwwroot/.nojekyll
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
         path: ./dist/wwwroot
-#     - name: Fix base path for GitHub Pages
-#       run: |
-#         # GitHub Pagesでは /repository-name/ のパスになるため、base要素を修正
-#         sed -i 's|<base href="/" />|<base href="/MyHomePage/" />|g' dist/wwwroot/index.html
 
- dotnet restore MyHomePage.csproj
-#     - name: Upload artifact
-#       uses: actions/upload-pages-artifact@v3
-#       with:
-#         path: ./dist/wwwroot
-
-    - name: Publish
-      run: dotnet publish -c Release --no-build -o dist
-#     - nam
-    - name: Publish
-      run: dotnet publish -c Release --no-build -o dist
-#     - nam
-    - name: Publish
-      run: dotnet publish -c Release --no-build -o dist
-#     - n
-#     - name: Deploy to GitHub Pages
-#       id: deployment
-#       uses: actions/deploy-pages@v4
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
